@@ -1,5 +1,6 @@
 import 'package:ecommerce/constants/colors.dart';
 import 'package:ecommerce/data/banner_model.dart';
+import 'package:ecommerce/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -28,69 +29,81 @@ class _HomeState extends State<Home> {
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 110),
-                            child: Image.asset(
-                              'images/${index + 1}.webp',
-                              height: 200,
-                              width: 190,
-                              fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ProductDetailScreen(
+                              index: index,
                             ),
                           ),
-                          Positioned(
-                            top: 155,
-                            left: 20,
-                            child: Text(
-                              banners()[index].name!,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 110),
+                              child: Image.asset(
+                                'images/${index + 1}.webp',
+                                height: 200,
+                                width: 190,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 210,
-                            right: 0,
-                            left: 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '\$ ' + banners()[index].price!,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: mains.withOpacity(0.7),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Icon(
-                                      Icons.shopping_cart_outlined,
-                                      color: Colors.white,
-                                    ),
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: mains.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(11),
-                                    ),
-                                  ),
-                                ],
+                            Positioned(
+                              top: 155,
+                              left: 20,
+                              child: Text(
+                                banners()[index].name!,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              top: 210,
+                              right: 0,
+                              left: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '\$ ' + banners()[index].price!,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: mains.withOpacity(0.7),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Icon(
+                                        Icons.shopping_cart_outlined,
+                                        color: Colors.white,
+                                      ),
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: mains.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(11),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
