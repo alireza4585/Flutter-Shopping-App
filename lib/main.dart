@@ -1,5 +1,8 @@
+import 'package:ecommerce/auth/auth.dart';
 import 'package:ecommerce/constants/navigation.dart';
 import 'package:ecommerce/screens/home.dart';
+import 'package:ecommerce/screens/login_page.dart';
+import 'package:ecommerce/screens/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Navi(),
+      home: AuthPage(),
     );
   }
 }

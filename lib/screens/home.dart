@@ -317,7 +317,12 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
-              child: Icon(Icons.list),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'images/nike2_i.png',
+                ),
+              ),
             ),
             Container(
               width: 40,
