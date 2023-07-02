@@ -1,6 +1,6 @@
 import 'package:ecommerce/constants/colors.dart';
 import 'package:ecommerce/constants/navigation.dart';
-import 'package:ecommerce/data/banner_model.dart';
+import 'package:ecommerce/data/model/banner_model.dart';
 import 'package:ecommerce/screens/home.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,6 @@
 import 'package:ecommerce/constants/colors.dart';
 import 'package:ecommerce/screens/home.dart';
+import 'package:ecommerce/screens/profile.dart';
 import 'package:flutter/material.dart';
 
 class Navi extends StatefulWidget {
@@ -10,7 +11,7 @@ class Navi extends StatefulWidget {
 }
 
 int index = 0;
-List Screen = [Home(), Home(), Home(), Home()];
+List Screen = [Home(), Home(), Home(), Profil()];
 
 class _NaviState extends State<Navi> {
   @override

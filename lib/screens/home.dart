@@ -1,5 +1,5 @@
 import 'package:ecommerce/constants/colors.dart';
-import 'package:ecommerce/data/banner_model.dart';
+import 'package:ecommerce/data/model/banner_model.dart';
 import 'package:ecommerce/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

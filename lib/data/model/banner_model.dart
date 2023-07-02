@@ -1,4 +1,4 @@
-import 'package:ecommerce/data/banner.dart';
+import 'package:ecommerce/data/model/banner.dart';
 
 List<banner> banners() {
   banner one = banner();

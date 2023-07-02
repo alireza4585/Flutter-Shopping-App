@@ -1,4 +1,9 @@
+import 'package:ecommerce/data/bloc/auth/auth_bloc.dart';
+import 'package:ecommerce/data/bloc/auth/auth_event.dart';
+import 'package:ecommerce/data/bloc/auth/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Signup extends StatefulWidget {
   final VoidCallback show;
@@ -14,20 +19,20 @@ class _SignupState extends State<Signup> {
   FocusNode _focusNode3 = FocusNode();
   final email = TextEditingController();
   final password = TextEditingController();
-  final passwordConfirm = TextEditingController();
-  bool visibil = false;
+  final Confirmpassword = TextEditingController();
+  bool visibil = true;
   @override
   void initState() {
     super.initState();
-    _focusNode1.addListener(() {
-      setState(() {});
-    });
-    _focusNode2.addListener(() {
-      setState(() {});
-    });
-    _focusNode3.addListener(() {
-      setState(() {});
-    });
+    // _focusNode1.addListener(() {
+    //   setState(() {});
+    // });
+    // _focusNode2.addListener(() {
+    //   setState(() {});
+    // });
+    // _focusNode3.addListener(() {
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -42,33 +47,44 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              logo(),
-              SizedBox(height: 0),
-              textfild(),
-              SizedBox(height: 15),
-              textfild2(),
-              SizedBox(height: 15),
-              textfild3(),
-              SizedBox(height: 8),
-              have(),
-              SizedBox(height: 20),
-              signIN(),
-              SizedBox(height: 15),
-              or(),
-              SizedBox(height: 15),
-              WithGoogle(),
-              SizedBox(height: 10),
-              WithApple(),
-            ],
-          ),
-        ),
-      ),
-    );
+        backgroundColor: Colors.grey[300],
+        body: SafeArea(
+            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                logo(),
+                SizedBox(height: 0),
+                textfild(),
+                SizedBox(height: 15),
+                textfild2(),
+                SizedBox(height: 15),
+                textfild3(),
+                SizedBox(height: 8),
+                have(),
+                SizedBox(height: 20),
+                signIN(),
+                if (state is AuthStateLoading) ...{CircularProgressIndicator()},
+                if (state is SignUpResponseState) ...[
+                  state.SignUp.fold((left) {
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
+                      _dialogBuilder(context, left);
+                    });
+                    return Text('');
+                  }, (right) {
+                    return Text(right);
+                  })
+                ],
+                SizedBox(height: 15),
+                or(),
+                SizedBox(height: 15),
+                WithGoogle(),
+                SizedBox(height: 10),
+                WithApple(),
+              ],
+            ),
+          );
+        })));
   }
 
   Row or() {
@@ -100,20 +116,26 @@ class _SignupState extends State<Signup> {
   Padding signIN() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(
-          'Sign In',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          BlocProvider.of<AuthBloc>(context).add(AuthRequest(
+              Confirmpassword.text, false, email.text, password.text));
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'Sign In',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -316,7 +338,7 @@ class _SignupState extends State<Signup> {
         ),
         child: TextField(
           style: TextStyle(fontSize: 18, color: Colors.black),
-          controller: passwordConfirm,
+          controller: Confirmpassword,
           focusNode: _focusNode3,
           obscureText: visibil,
           obscuringCharacter: '*',
@@ -363,4 +385,30 @@ class _SignupState extends State<Signup> {
       child: Image.asset('images/nikee.png'),
     );
   }
+}
+
+Future<void> _dialogBuilder(BuildContext context, String message) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          'Error',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+        ),
+        content: Text(message, style: TextStyle(fontSize: 17)),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
